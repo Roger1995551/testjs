@@ -1,5 +1,5 @@
 /**
- * 常用工具实现类
+ * 常用工具类
  */
 class Tools {
     /**
@@ -22,8 +22,8 @@ class Tools {
 
     /**
      * 判断数组里面是否存在某个元素
-     * @param {Array} array 数组
-     * @param {any} key 数组内的某个元素
+     * @param {string[] | Number[]} array 数组
+     * @param {string | Number} key 数组内的某个元素
      */
     static containKey(array, key) {
         for (let i = 0; i < array.length; i++) {
@@ -44,8 +44,8 @@ class Storage {
     }
     /**
      * 添加数据并设置保存时长
-     * @param {any} key 保存数据的key
-     * @param {any} value  需要保存的数据
+     * @param {String} key 保存数据的key
+     * @param {Object} value  需要保存的数据
      * @param {Date} expire 设置失效时间 
      */
     setExpire(key, value, expire) {
@@ -59,8 +59,24 @@ class Storage {
     }
 
     /**
+     * 存储键值对数据
+     * @param {String} map 存入键值对对象的名字
+     * @param {String} key 键名
+     * @param {Object} value 值
+     * @param {Date} expire 过期时间
+     */
+    setMapExpire(map, key, value, expire){
+        let obj = this.getExpire(map);
+        if(!obj){
+            obj = {}
+        }
+        obj[key] = value;
+        this.setExpire(map,obj,expire)
+    }
+
+    /**
      * 存储的key单独存入数组中进行保存方便后面进行删除操作
-     * @param {*} key 存储的key
+     * @param {String} key 存储的key
      */
     setAddKey(key) {
         let list = this.storage.getItem("SaveList")
@@ -69,13 +85,13 @@ class Storage {
         } else {
             list = []
         }
-        list.push(key)
+        Tools.containKey(list, key)? undefined:list.push(key);
         this.storage.setItem("SaveList", JSON.stringify(list))
     }
 
     /**
      * 获取存储值
-     * @param {*} key 存入的key 
+     * @param {String} key 存入的key 
      */
     getExpire(key) {
         let val = this.storage.getItem(key);
@@ -105,7 +121,7 @@ class Storage {
 
     /**
      * 删除指定集合的key
-     * @param {Array} list 
+     * @param {String[]} list 需要删除的多个key 
      */
     removeList(list) {
         list.forEach(arr => {
