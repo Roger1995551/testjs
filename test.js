@@ -33,6 +33,72 @@ class Tools {
         }
         return false
     }
+
+    /**
+     * 数组交集
+     * @param {String[]|Number[]} array1 
+     * @param {String[]|Number[]} array2 
+     */
+    static arrayIntersect(array1, array2){
+        let array = []
+        array1.forEach(arr1=>{
+            this.containKey(array2, arr1)? array.push(arr1):"";
+        })
+        return array
+    }
+
+    /**
+     * 数组并集
+     * @param {String[]|Number[]} array1 
+     * @param {String[]|Number[]} array2 
+     */
+    static arrayUnion(array1, array2){
+        let array = []
+        array2.forEach(arr2 => {
+            array.push(arr2)
+        });
+        array1.forEach(arr1=>{
+            array.push(arr1)
+        })
+        return array
+    }
+
+    /**
+     * 数组差集 array1-array2
+     * @param {String[]|Number[]} array1 
+     * @param {String[]|Number[]} array2 
+     */
+    static arrayExcept(array1,array2){
+        let array = []
+        array1.forEach(arr1=>{
+            this.containKey(array2, arr1)? "":array.push(arr1);
+        })
+        return array
+    }
+
+    /**
+     * 数组a是否包含数组b
+     * @param {String[]|Number[]} array1 
+     * @param {String[]|Number[]} array2 
+     */
+    static arrayContains(array1, array2){
+        let index = 0;
+        array1.forEach(arr1=>{
+            this.containKey(array2,arr1) ? index+=1:""
+        })
+        return index === array2.length
+    }
+
+    /**
+     * 是否为空
+     * @param {*} obj 
+     */
+    static isNullAndUndefined(obj){
+        if(obj == null || obj == undefined){
+            return true
+        }
+        return false
+    }
 }
 
 /**
@@ -56,6 +122,21 @@ class Storage {
         };
         this.setAddKey(key)
         this.storage.setItem(key, JSON.stringify(obj));
+    }
+
+    /**
+     * 存数组数据
+     * @param {String} key 
+     * @param {Object} value 
+     * @param {Date} expire 
+     */
+    setArrayExpire(key, value, expire){
+        let array = this.getExpire(key)
+        if(!array){
+            array = []
+        }
+        array.push(value);
+        this.setExpire(key, array, expire)
     }
 
     /**
