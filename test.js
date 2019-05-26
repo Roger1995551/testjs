@@ -20,6 +20,27 @@ class Tools {
         return str.substr(str.length - endStr.length) === endStr
     }
 
+    static arrayIndexOf(array, value){
+        for(let i = 0;i<array.length;i++){
+            if(array[i] === value){
+                return i
+            }
+        }
+        return -1;
+    }
+
+    static arrayRemoveItem(array, value){
+        let index = this.arrayIndexOf(array,value)
+        let tem = []
+        array.forEach(arr=>{
+            tem.push(arr)
+        })
+        if(index != -1){
+            tem.splice(index, 1)
+        }
+        return tem
+    }
+
     /**
      * 判断数组里面是否存在某个元素
      * @param {string[] | Number[]} array 数组
