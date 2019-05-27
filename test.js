@@ -2,6 +2,7 @@
  * 常用工具类
  */
 class Tools {
+       /** ------------------------------字符串相关工具---------------------------------------------- **/
     /**
      * 判断是否以某个字符串开头
      * @param {string} str 需要判断的字符串
@@ -19,7 +20,12 @@ class Tools {
     static endWith(str, endStr) {
         return str.substr(str.length - endStr.length) === endStr
     }
-
+    /** ------------------------------------数组相关工具---------------------------------------- **/
+    /**
+     * 判断值是否在数组中
+     * @param {String[] | Number[]} array 
+     * @param {String | NUmber} value 
+     */
     static arrayIndexOf(array, value){
         for(let i = 0;i<array.length;i++){
             if(array[i] === value){
@@ -29,6 +35,11 @@ class Tools {
         return -1;
     }
 
+    /**
+     * 删除数组中指定值
+     * @param {String[]| Number[]} array 
+     * @param {String | Number} value 
+     */
     static arrayRemoveItem(array, value){
         let index = this.arrayIndexOf(array,value)
         let tem = []
@@ -109,7 +120,7 @@ class Tools {
         })
         return index === array2.length
     }
-
+   /** ------------------------------各种不知道是啥分类的方法---------------------------------------------- **/
     /**
      * 是否为空
      * @param {*} obj 
@@ -229,6 +240,22 @@ class Storage {
         list.forEach(arr => {
             this.storage.removeItem(arr)
         });
+    }
+}
+
+class Event{
+    constructor(){
+        this.EventList = {}
+    }
+
+    addEvent(name, method){
+        let methods = this.EventList[name]
+        if(methods!=undefined && methods!=null){
+            this.EventList[name].push(method)
+            return this.EventList[name]
+        }
+        this.EventList[name] = [method]
+        return this.EventList[name]
     }
 
 
